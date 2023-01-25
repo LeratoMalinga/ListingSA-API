@@ -21,14 +21,14 @@ namespace DemoSvelte.Controllers
             return propertyService.Get();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetPropertyById/{id}")]
         public ActionResult<Property> GetPropertybyId(string id)
         {
             var property = propertyService.Get(id);
 
             if (property == null)
             {
-                return NotFound($"Student with Id = {id} not found");
+                return NotFound($"Property with Id = {id} not found");
             }
 
             return property;
@@ -43,14 +43,14 @@ namespace DemoSvelte.Controllers
         }
 
         // PUT api/<StudentsController>/5
-        [HttpPut("{id}")]
+        [HttpPut("UpdateProperty/{id}")]
         public ActionResult Put(string id, [FromBody] Property property)
         {
             var existingProperty = propertyService.Get(id);
 
             if (existingProperty == null)
             {
-                return NotFound($"Student with Id = {id} not found");
+                return NotFound($"Property with Id = {id} not found");
             }
 
             propertyService.Update(id, property);
@@ -59,7 +59,7 @@ namespace DemoSvelte.Controllers
         }
 
         // DELETE api/<StudentsController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteProperty/{id}")]
         public ActionResult DeleteProperty(string id)
         {
             var property = propertyService.Get(id);

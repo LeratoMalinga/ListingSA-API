@@ -21,7 +21,7 @@ namespace DemoSvelte.Controllers
             return appUserService.Get();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("Get UserAppUserbyId/{id}")]
         public ActionResult<AppUser> GetAppUserbyId(string id)
         {
             var appUser = appUserService.Get(id);
@@ -34,7 +34,7 @@ namespace DemoSvelte.Controllers
             return appUser;
         }
 
-        [HttpPost("AddAppUser")]
+        [HttpPost("Add AppUser")]
         public ActionResult<AppUser> Post([FromBody] AppUser appUser)
         {
             appUserService.Create(appUser);
@@ -59,7 +59,7 @@ namespace DemoSvelte.Controllers
         }
 
         // DELETE api/<StudentsController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete("Delete AppUser/{id}")]
         public ActionResult DeleteAppUser(string id)
         {
             var appUser = appUserService.Get(id);

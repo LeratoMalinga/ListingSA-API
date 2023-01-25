@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\lmali\\source\\repos\\DemoSvelte\\DemoSvelte\\DemoSvelte.csproj": {}
+    "C:\\Users\\lmali\\Desktop\\Personal Project API\\DemoSvelte\\DemoSvelte\\DemoSvelte.csproj": {}
   },
   "projects": {
-    "C:\\Users\\lmali\\source\\repos\\DemoSvelte\\DemoSvelte\\DemoSvelte.csproj": {
+    "C:\\Users\\lmali\\Desktop\\Personal Project API\\DemoSvelte\\DemoSvelte\\DemoSvelte.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\lmali\\source\\repos\\DemoSvelte\\DemoSvelte\\DemoSvelte.csproj",
+        "projectUniqueName": "C:\\Users\\lmali\\Desktop\\Personal Project API\\DemoSvelte\\DemoSvelte\\DemoSvelte.csproj",
         "projectName": "DemoSvelte",
-        "projectPath": "C:\\Users\\lmali\\source\\repos\\DemoSvelte\\DemoSvelte\\DemoSvelte.csproj",
+        "projectPath": "C:\\Users\\lmali\\Desktop\\Personal Project API\\DemoSvelte\\DemoSvelte\\DemoSvelte.csproj",
         "packagesPath": "C:\\Users\\lmali\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\lmali\\source\\repos\\DemoSvelte\\DemoSvelte\\obj\\",
+        "outputPath": "C:\\Users\\lmali\\Desktop\\Personal Project API\\DemoSvelte\\DemoSvelte\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "C:\\Users\\lmali\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
