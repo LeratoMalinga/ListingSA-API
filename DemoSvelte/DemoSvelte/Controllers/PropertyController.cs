@@ -42,7 +42,7 @@ namespace DemoSvelte.Controllers
             return CreatedAtAction(nameof(GetProperties), new { id = property.Id }, property);
         }
 
-        // PUT api/<StudentsController>/5
+        
         [HttpPut("UpdateProperty/{id}")]
         public ActionResult Put(string id, [FromBody] Property property)
         {
@@ -58,7 +58,7 @@ namespace DemoSvelte.Controllers
             return NoContent();
         }
 
-        // DELETE api/<StudentsController>/5
+        
         [HttpDelete("DeleteProperty/{id}")]
         public ActionResult DeleteProperty(string id)
         {
