@@ -84,3 +84,12 @@ C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\obj\Debug\net6
 C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\obj\Debug\net6.0\DemoSvelte.pdb
 C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\obj\Debug\net6.0\DemoSvelte.genruntimeconfig.cache
 C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\obj\Debug\net6.0\ref\DemoSvelte.dll
+C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\AspNetCore.Identity.MongoDbCore.dll
+C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\MongoDbGenericRepository.dll
+C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
