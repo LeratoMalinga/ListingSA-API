@@ -100,7 +100,7 @@ namespace DemoSvelte.Controllers
                     return BadRequest("Registration Failed");
                 }
 
-                var addUserToRoleResult = await _userManager.AddToRoleAsync(userExists, "User");
+                var addUserToRoleResult = await _userManager.AddToRoleAsync(userExists, "String");
                 if(!addUserToRoleResult.Succeeded) {
                     return BadRequest("User Created but could not add user role");
                 

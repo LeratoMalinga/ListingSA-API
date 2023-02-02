@@ -44,6 +44,7 @@ var mongoDBIdentityConfigaration = new MongoDbIdentityConfiguration
         options.Password.RequireDigit = false;
         options.Password.RequireLowercase = false;
         options.Password.RequireUppercase = false;
+        options.Password.RequireNonAlphanumeric = false;
         options.Password.RequiredLength = 8;
 
         //lockout
