@@ -92,6 +92,7 @@ namespace DemoSvelte.Controllers
                     Email = registerAppUserVM.Email,
                     ConcurrencyStamp = Guid.NewGuid().ToString(),
                     UserName = registerAppUserVM.Email,
+                    
                 };
 
                 var createUserResult = await _userManager.CreateAsync(userExists, registerAppUserVM.Password);
@@ -100,7 +101,7 @@ namespace DemoSvelte.Controllers
                     return BadRequest("Registration Failed");
                 }
 
-                var addUserToRoleResult = await _userManager.AddToRoleAsync(userExists, "String");
+                var addUserToRoleResult = await _userManager.AddToRoleAsync(userExists, registerAppUserVM.UserRole);
                 if(!addUserToRoleResult.Succeeded) {
                     return BadRequest("User Created but could not add user role");
                 

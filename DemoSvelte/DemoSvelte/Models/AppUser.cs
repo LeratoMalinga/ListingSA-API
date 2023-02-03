@@ -15,6 +15,7 @@ namespace DemoSvelte.Models
        // public string Id { get; set; } = string.Empty;
        // [BsonElement("Name")]
         public string Name { get; set; } = string.Empty;
+        //public AppRole Role { get; set; }  
        // [BsonElement("Email")]
        //public string Email { get; set; } = string.Empty;
        // [BsonElement("Password")]

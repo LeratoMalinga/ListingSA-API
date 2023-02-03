@@ -14,5 +14,7 @@ namespace DemoSvelte.Models.ViewModels
         public string UserName { get; set; } = string.Empty;
 
         public string Name { get; set; } = string.Empty.ToString();
+
+        public string UserRole { get; set; } = string.Empty.ToString();
     }
 }
