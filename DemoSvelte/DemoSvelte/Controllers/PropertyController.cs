@@ -1,4 +1,5 @@
 ﻿using DemoSvelte.Models;
+using DemoSvelte.Models.ViewModels;
 using DemoSvelte.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -35,11 +36,25 @@ namespace DemoSvelte.Controllers
         }
 
         [HttpPost("AddProperty")]
-        public ActionResult<Property> Post([FromBody] Property property)
+        public ActionResult<Property> Post([FromBody] AddPropertyVM vm)
         {
-            propertyService.Create(property);
+            //var user = db.Users.Include(u => u.Patient).Where(u => u.Id == userId).FirstOrDefault();
+
+            var property = new Property { Name = vm.Name, Price = vm.Price, Province = vm.Province, City = vm.City, Suburb = vm.Suburb, Type = vm.Type, Address = vm.Address, IsAvaliable =true,Picture="pic"};
+            try
+            {
+                propertyService.Create(property);
+
+                return CreatedAtAction(nameof(GetProperties), new { id = property.Id }, property);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("Property no created");
+            }
+
             
-            return CreatedAtAction(nameof(GetProperties), new { id = property.Id }, property);
+           
         }
 
         

@@ -20,14 +20,16 @@ namespace DemoSvelte.Controllers
         //private readonly IMongoCollection<AppUser> _appusers;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        public AuthentificationController(UserManager<AppUser> userManager,RoleManager<AppRole> roleManager)
+        public AuthentificationController(UserManager<AppUser> userManager,RoleManager<AppRole> roleManager,SignInManager<AppUser> signInManager)
         {
             //var database = mongoClient.GetDatabase(settings.DatabaseName);
             //_appusers = database.GetCollection<AppUser>(settings.AppUserCollectionName);
             // this.appUserService = appUserService;
             _userManager= userManager;
             _roleManager= roleManager;
+            _signInManager = signInManager;
              
         }
 
@@ -38,9 +40,18 @@ namespace DemoSvelte.Controllers
             try
             {
                 var user = await _userManager.FindByEmailAsync(appUser.Email);
+
                 if (user == null)
                 {
                     return BadRequest("User does not exist");
+                }
+
+
+                var result = await _signInManager.CheckPasswordSignInAsync(user, appUser.Password, false);
+
+                if (!result.Succeeded)
+                {
+                    return BadRequest("Invalid username Or email");
                 }
 
                 var claims = new List<Claim>
