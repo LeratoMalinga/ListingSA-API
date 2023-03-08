@@ -93,3 +93,6 @@ C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6
 C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\MongoDbGenericRepository.dll
 C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\NaCl.dll
+C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\PusherServer.dll

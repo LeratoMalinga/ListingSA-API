@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Vx5nWDVEQwuPeBxBSYODm/HUy/24FwKjQeR9KeL/jHcW+JvRQj9h8MJDznAyPlV3UDsfymSA34Y88HYhhkrQpg==",
+  "dgSpecHash": "sfT0Y1xuocgDg8ch0ezqUxyUfOoQaSeuaw+K5GJE4YNc76bd6pSYgvV/4XqGHtgo6u/uYTw3xd0Z3czHzReIzg==",
   "success": true,
   "projectFilePath": "C:\\Users\\lmali\\Desktop\\Personal Project API\\DemoSvelte\\DemoSvelte\\DemoSvelte.csproj",
   "expectedPackageFiles": [
@@ -36,6 +36,9 @@
     "C:\\Users\\lmali\\.nuget\\packages\\mongodb.driver.core\\2.18.0\\mongodb.driver.core.2.18.0.nupkg.sha512",
     "C:\\Users\\lmali\\.nuget\\packages\\mongodb.libmongocrypt\\1.6.0\\mongodb.libmongocrypt.1.6.0.nupkg.sha512",
     "C:\\Users\\lmali\\.nuget\\packages\\mongodbgenericrepository\\1.4.8\\mongodbgenericrepository.1.4.8.nupkg.sha512",
+    "C:\\Users\\lmali\\.nuget\\packages\\nacl.net\\0.1.13\\nacl.net.0.1.13.nupkg.sha512",
+    "C:\\Users\\lmali\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
+    "C:\\Users\\lmali\\.nuget\\packages\\pusherserver\\4.6.1\\pusherserver.4.6.1.nupkg.sha512",
     "C:\\Users\\lmali\\.nuget\\packages\\sharpcompress\\0.30.1\\sharpcompress.0.30.1.nupkg.sha512",
     "C:\\Users\\lmali\\.nuget\\packages\\snappier\\1.0.0\\snappier.1.0.0.nupkg.sha512",
     "C:\\Users\\lmali\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",

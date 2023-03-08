@@ -94,7 +94,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors(p => p.AddPolicy("corspolicy", build =>
 {
-    build.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader();
+    build.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
 }));
 
 var app = builder.Build();
