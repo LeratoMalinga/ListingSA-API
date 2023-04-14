@@ -1,6 +1,8 @@
 ﻿using DemoSvelte.Models;
+using DemoSvelte.Models.ViewModels;
 using DemoSvelte.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DemoSvelte.Controllers
@@ -10,9 +12,11 @@ namespace DemoSvelte.Controllers
     public class PropertyController : ControllerBase
     {
         private readonly IPropertyService propertyService;
-        public PropertyController(IPropertyService propertyService) 
+        private readonly UserManager<AppUser> _userManager;
+        public PropertyController(IPropertyService propertyService, UserManager<AppUser> userManager)
         {
             this.propertyService = propertyService;
+            _userManager = userManager;
         }
 
         [HttpGet ("GetProperties")]   
@@ -21,36 +25,75 @@ namespace DemoSvelte.Controllers
             return propertyService.Get();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetPropertyById/{id}")]
         public ActionResult<Property> GetPropertybyId(string id)
         {
             var property = propertyService.Get(id);
 
             if (property == null)
             {
-                return NotFound($"Student with Id = {id} not found");
+                return NotFound($"Property with Id = {id} not found");
             }
 
             return property;
         }
 
         [HttpPost("AddProperty")]
-        public ActionResult<Property> Post([FromBody] Property property)
+        public ActionResult<Property> Post([FromBody] AddPropertyVM vm)
         {
-            propertyService.Create(property);
-            
-            return CreatedAtAction(nameof(GetProperties), new { id = property.Id }, property);
+
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                              .Select(e => e.ErrorMessage);
+                return BadRequest(errors);
+            }
+
+            var userId = vm.UserId; // Get the userId from the view model
+
+            // Get the AppUser object from the database using the userId
+            var appUser = _userManager.FindByIdAsync(userId).Result;
+
+            if (appUser == null)
+            {
+                return BadRequest("User not found");
+            }
+
+            var property = new Property
+            {
+                Name = vm.Name,
+                Price = vm.Price,
+                Province = vm.Province,
+                Description= vm.Description,
+                City = vm.City,
+                Suburb = vm.Suburb,
+                Type = vm.Type,
+                Address = vm.Address,
+                IsAvaliable = true,
+                ImageBase64 = vm.ImageBase64,
+                AppUser = appUser
+            };
+
+            try
+            {
+                propertyService.Create(property);
+                return CreatedAtAction(nameof(GetProperties), new { id = property.Id }, property);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // PUT api/<StudentsController>/5
-        [HttpPut("{id}")]
+
+        [HttpPut("UpdateProperty/{id}")]
         public ActionResult Put(string id, [FromBody] Property property)
         {
             var existingProperty = propertyService.Get(id);
 
             if (existingProperty == null)
             {
-                return NotFound($"Student with Id = {id} not found");
+                return NotFound($"Property with Id = {id} not found");
             }
 
             propertyService.Update(id, property);
@@ -58,8 +101,8 @@ namespace DemoSvelte.Controllers
             return NoContent();
         }
 
-        // DELETE api/<StudentsController>/5
-        [HttpDelete("{id}")]
+        
+        [HttpDelete("DeleteProperty/{id}")]
         public ActionResult DeleteProperty(string id)
         {
             var property = propertyService.Get(id);
