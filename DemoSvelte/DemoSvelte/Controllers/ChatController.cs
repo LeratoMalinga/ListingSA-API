@@ -28,7 +28,7 @@ namespace DemoSvelte.Controllers
              await pusher.TriggerAsync(
               "chat",
               "message",
-              new { message = dto.Message,username =dto.Username});
+              new { message = dto.Message,username = dto.Username});
 
             return Ok(new string[] {} );  
 

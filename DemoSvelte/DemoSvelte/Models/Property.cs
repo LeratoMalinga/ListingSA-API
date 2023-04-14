@@ -24,7 +24,7 @@ namespace DemoSvelte.Models
         public string Suburb { set; get; } = String.Empty;
 
         [BsonElement("Price")]
-        public string? Price { set; get; }
+        public string Price { set; get; } = String.Empty;
         [BsonElement("Address")]
         public string Address { set; get; } = String.Empty;
 
@@ -32,8 +32,8 @@ namespace DemoSvelte.Models
         public string Type { set; get; } = String.Empty;
         [BsonElement("Available")]
         public bool IsAvaliable { set; get; }
-        [BsonElement("Picture")]
-        public string Picture { get; set; } = String.Empty;
+        [BsonElement("ImageBase64")]
+        public string ImageBase64 { get; set; } = String.Empty;
         [BsonElement("AppUser")]
         public AppUser? AppUser { set; get; }
     }

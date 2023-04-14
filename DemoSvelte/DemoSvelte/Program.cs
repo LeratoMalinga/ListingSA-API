@@ -10,6 +10,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using System.Text;
+using DemoSvelte.Hubs;
 using static System.Net.WebRequestMethods;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,7 +47,7 @@ var mongoDBIdentityConfigaration = new MongoDbIdentityConfiguration
         options.Password.RequireLowercase = false;
         options.Password.RequireUppercase = false;
         options.Password.RequireNonAlphanumeric = false;
-        options.Password.RequiredLength = 8;
+        //options.Password.RequiredLength = 8;
 
         //lockout
         options.Lockout.DefaultLockoutTimeSpan= TimeSpan.FromMinutes(10);
@@ -91,6 +92,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSignalR();
 
 builder.Services.AddCors(p => p.AddPolicy("corspolicy", build =>
 {
@@ -105,9 +107,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseCors("corspolicy");
 app.UseHttpsRedirection();
 app.UseAuthentication();
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+//app.UseEndpoints(endpoints =>
+//{ 
+//    endpoints.
+//});
+app.MapHub<ChatHub>("/ChatHub");
 
 app.UseAuthorization();
 
