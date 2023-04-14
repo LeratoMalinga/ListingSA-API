@@ -13,18 +13,18 @@ namespace DemoSvelte.Models.ViewModels
 
         public string Province { set; get; } = String.Empty;
            
-            public string City { set; get; } = String.Empty;
+        public string City { set; get; } = String.Empty;
 
-            public string Suburb { set; get; } = String.Empty;
+        public string Suburb { set; get; } = String.Empty;
            
-            public string Price { set; get; }= String.Empty;
+        public string Price { set; get; }= String.Empty;
           
-            public string Address { set; get; } = String.Empty;
+        public string Address { set; get; } = String.Empty;
 
-            public string ImageBase64 { set; get; } = String.Empty;
-            public string Type { set; get; } = String.Empty;
+        public string ImageBase64 { set; get; } = String.Empty;
+        public string Type { set; get; } = String.Empty;
 
-            public string UserId { set; get; } = String.Empty;
+        public string UserId { set; get; } = String.Empty;
     }
 
 }

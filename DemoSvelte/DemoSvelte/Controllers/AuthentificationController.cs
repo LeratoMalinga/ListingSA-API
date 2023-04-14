@@ -16,17 +16,12 @@ namespace DemoSvelte.Controllers
     [ApiController]
     public class AuthentificationController : ControllerBase
     {
-        //private readonly IAppUserService appUserService;
-        //private readonly IMongoCollection<AppUser> _appusers;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly SignInManager<AppUser> _signInManager;
 
         public AuthentificationController(UserManager<AppUser> userManager,RoleManager<AppRole> roleManager,SignInManager<AppUser> signInManager)
         {
-            //var database = mongoClient.GetDatabase(settings.DatabaseName);
-            //_appusers = database.GetCollection<AppUser>(settings.AppUserCollectionName);
-            // this.appUserService = appUserService;
             _userManager= userManager;
             _roleManager= roleManager;
             _signInManager = signInManager;
@@ -137,90 +132,5 @@ namespace DemoSvelte.Controllers
 
             return Ok("New role Created succesfully");
         }
-
-        //[HttpPost("register")]
-        //public async Task<IActionResult> Register(AppUserVM appUser)
-        //{
-        //    if (_appusers.Find(e => e.Email == appUser.Email).FirstOrDefault();)
-        //    {
-        //        return BadRequest("User already exists.");
-        //    }
-
-        //    CreatePasswordHash(request.Password,
-        //         out byte[] passwordHash,
-        //         out byte[] passwordSalt);
-
-        //    var user = new User
-        //    {
-        //        Email = request.Email,
-        //        PasswordHash = passwordHash,
-        //        PasswordSalt = passwordSalt,
-        //        VerificationToken = CreateRandomToken()
-        //    };
-
-        //    _context.Users.Add(user);
-        //    await _context.SaveChangesAsync();
-
-        //    return Ok("User successfully created!");
-        //}
-        //[HttpGet("GetAppUsers")]
-        //public ActionResult<List<AppUser>> GetAppUsers()
-        //{
-        //    return appUserService.Get();
-        //}
-
-        //[HttpGet("GetUserAppUserbyId/{id}")]
-        //public ActionResult<AppUser> GetAppUserbyId(string id)
-        //{
-        //    var appUser = appUserService.Get(id);
-
-        //    if (appUser == null)
-        //    {
-        //        return NotFound($"AppUser with Id = {id} not found");
-        //    }
-
-        //    return appUser;
-        //}
-
-
-        //[HttpPost("RegisterAppUser")]
-        //public ActionResult<AppUser> Post([FromBody] AppUser appUser)
-        //{
-        //    appUserService.Create(appUser);
-
-        //    return CreatedAtAction(nameof(GetAppUsers), new { id = appUser.Id }, appUser);
-        //}
-
-
-        //[HttpPut("UpdateAppUser/{id}")]
-        //public ActionResult Put(string id, [FromBody] AppUser appUser)
-        //{
-        //    var existingProperty = appUserService.Get(id);
-
-        //    if (existingProperty == null)
-        //    {
-        //        return NotFound($"AppUser with Id = {id} not found");
-        //    }
-
-        //    appUserService.Update(id, appUser);
-
-        //    return NoContent();
-        //}
-
-
-        //[HttpDelete("Delete AppUser/{id}")]
-        //public ActionResult DeleteAppUser(string id)
-        //{
-        //    var appUser = appUserService.Get(id);
-
-        //    if (appUser == null)
-        //    {
-        //        return NotFound($"AppUser with Id = {id} not found");
-        //    }
-
-        //    appUserService.Delete(appUser.Id);
-
-        //    return Ok($"AppUser with Id = {id} deleted");
-        //}
     }
 }
