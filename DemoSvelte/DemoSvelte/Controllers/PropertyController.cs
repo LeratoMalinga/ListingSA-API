@@ -85,9 +85,8 @@ namespace DemoSvelte.Controllers
             }
         }
 
-
         [HttpPut("UpdateProperty/{id}")]
-        public ActionResult Put(string id, [FromBody] Property property)
+        public ActionResult Put(string id, [FromBody] UpdatePropertyVM vm)
         {
             var existingProperty = propertyService.Get(id);
 
@@ -96,12 +95,22 @@ namespace DemoSvelte.Controllers
                 return NotFound($"Property with Id = {id} not found");
             }
 
-            propertyService.Update(id, property);
+            // Map properties from VM to existing Property object
+            existingProperty.Name = vm.Name;
+            existingProperty.Description = vm.Description;
+            existingProperty.Province = vm.Province;
+            existingProperty.City = vm.City;
+            existingProperty.Suburb = vm.Suburb;
+            existingProperty.Price = vm.Price;
+            existingProperty.Address = vm.Address;
+            existingProperty.ImageBase64 = vm.ImageBase64;
+            existingProperty.Type = vm.Type;
+
+            propertyService.Update(id, existingProperty);
 
             return NoContent();
         }
 
-        
         [HttpDelete("DeleteProperty/{id}")]
         public ActionResult DeleteProperty(string id)
         {
