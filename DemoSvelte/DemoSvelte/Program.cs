@@ -32,6 +32,7 @@ new MongoClient(builder.Configuration.GetValue<string>("PropertyListDatabaseSett
 
 builder.Services.AddScoped<IPropertyService, PropertyService>();
 builder.Services.AddScoped<IAppUserService, AppUserService>();
+builder.Services.AddScoped<INewsletterService, NewsletterService>();
 
 
 var mongoDBIdentityConfigaration = new MongoDbIdentityConfiguration
