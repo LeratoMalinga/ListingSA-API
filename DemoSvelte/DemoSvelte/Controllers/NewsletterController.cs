@@ -50,7 +50,7 @@ namespace DemoSvelte.Controllers
 
                 // Send welcome email to subscriber
                 var message = new MimeMessage();
-                message.From.Add(new MailboxAddress("Your Name", "your-email@example.com"));
+                message.From.Add(new MailboxAddress("Lerato", "lmalinga05@gmail.com"));
                 message.To.Add(new MailboxAddress(newsletterSubscriber.Name, newsletterSubscriber.Email));
                 message.Subject = "Welcome to Our Newsletter!";
                 message.Body = new TextPart(MimeKit.Text.TextFormat.Html)
@@ -58,17 +58,16 @@ namespace DemoSvelte.Controllers
                     Text = "Thank you for subscribing to our newsletter!"
                 };
 
-                //using var smtp = new MailKit.Net.Smtp.SmtpClient();
-
                 using (var client = new MailKit.Net.Smtp.SmtpClient())
                 {
-                    client.Connect("smtp.example.com", 587, true);
-                    client.Authenticate("username", "password");
+                    client.Connect("smtp.gmail.com", 465, true);
+                    client.Authenticate("lmalinga05@gmail.com", "udaqgdqoqbqkajld");
                     await client.SendAsync(message);
                     client.Disconnect(true);
                 }
 
                 return CreatedAtAction(nameof(GetSubscribers), new { id = newsletterSubscriber.Id }, newsletterSubscriber);
+                
             }
             catch (Exception ex)
             {

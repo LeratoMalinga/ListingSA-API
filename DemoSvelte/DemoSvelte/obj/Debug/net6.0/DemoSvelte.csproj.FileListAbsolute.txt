@@ -96,3 +96,8 @@ C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6
 C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\NaCl.dll
 C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\Newtonsoft.Json.dll
 C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\PusherServer.dll
+C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\BouncyCastle.Cryptography.dll
+C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\MailKit.dll
+C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\MimeKit.dll
+C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
+C:\Users\lmali\Desktop\Personal Project API\DemoSvelte\DemoSvelte\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll
