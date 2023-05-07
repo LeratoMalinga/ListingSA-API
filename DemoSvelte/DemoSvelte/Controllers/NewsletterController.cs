@@ -50,7 +50,7 @@ namespace DemoSvelte.Controllers
 
                 // Send welcome email to subscriber
                 var message = new MimeMessage();
-                message.From.Add(new MailboxAddress("Lerato", "lmalinga05@gmail.com"));
+                message.From.Add(new MailboxAddress("ListingSA", "lmalinga05@gmail.com"));
                 message.To.Add(new MailboxAddress(newsletterSubscriber.Name, newsletterSubscriber.Email));
                 message.Subject = "Welcome to Our Newsletter!";
                 message.Body = new TextPart(MimeKit.Text.TextFormat.Html)
