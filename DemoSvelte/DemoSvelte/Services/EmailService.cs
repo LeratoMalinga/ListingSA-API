@@ -10,11 +10,12 @@ namespace DemoSvelte.Services
         {
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("ListingSA", "lmalinga05@gmail.com"));
-            message.To.Add(new MailboxAddress(request.Name, request.To));
+            message.To.Add(new MailboxAddress(request.AgentName, request.To));
             message.Subject = "Welcome to Our Newsletter!";
             message.Body = new TextPart(MimeKit.Text.TextFormat.Html)
             {
-                Text = "Thank you for subscribing to our newsletter!"
+                Text = $"A new Tenant by the Name{request.Name} has shown interest in your property " + $"here is their contact details" + $"Email:{request.Email}" + $"ContactNumber:{request.Phone}" + $""
+
             };
 
             using (var client = new MailKit.Net.Smtp.SmtpClient())

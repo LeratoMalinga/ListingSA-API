@@ -16,7 +16,7 @@ namespace DemoSvelte.Controllers
         }
 
         [HttpPost("SendEmail")]
-        public IActionResult Post(EmailDTO dTO)
+        public IActionResult Post([FromBody] EmailDTO dTO)
         {
             _emailService.SendEmailAsync(dTO);
 
