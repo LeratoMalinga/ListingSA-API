@@ -53,6 +53,7 @@ namespace DemoSvelte.Controllers
             {
                 new Claim (JwtRegisteredClaimNames.Sub , user.Id.ToString() ),
                 new Claim(ClaimTypes.Name , user.UserName),
+                new Claim(ClaimTypes.Email,user.Name),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
