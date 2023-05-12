@@ -64,7 +64,7 @@ namespace DemoSvelte.Controllers
                 Name = vm.Name,
                 Price = vm.Price,
                 Province = vm.Province,
-                Description= vm.Description,
+                Description= "Property",
                 City = vm.City,
                 Suburb = vm.Suburb,
                 Type = vm.Type,
