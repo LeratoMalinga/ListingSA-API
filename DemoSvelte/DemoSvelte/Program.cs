@@ -116,10 +116,6 @@ app.UseAuthentication();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-//app.UseEndpoints(endpoints =>
-//{ 
-//    endpoints.
-//});
 app.MapHub<ChatHub>("/ChatHub");
 
 app.UseAuthorization();
