@@ -11,8 +11,6 @@ namespace DemoSvelte.Models
         public string Id { set; get; } = String.Empty;
         [BsonElement("UserName")]
         public string? UserName { get; set; }
-        [BsonElement("AppUser")]
-        public virtual AppUser User { get; set; }
         [BsonElement("Sender")]
         public string? Sender { get; set; }
         [BsonElement("Reciever")]
@@ -23,5 +21,8 @@ namespace DemoSvelte.Models
         public DateTime Timestamp { get; set; }
         [BsonElement("CommunicationId")]
         public int CommunicationId { get; set; }
+
+        [BsonElement("AppUser")]
+        public virtual AppUser User { get; set; }
     }
 }

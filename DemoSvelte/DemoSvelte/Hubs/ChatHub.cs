@@ -1,4 +1,5 @@
-﻿using DemoSvelte.Models;
+﻿using DemoSvelte.Dtos;
+using DemoSvelte.Models;
 using Microsoft.AspNetCore.SignalR;
 using MongoDB.Driver;
 
@@ -16,26 +17,35 @@ namespace DemoSvelte.Hubs
 
         public override Task OnConnectedAsync()
         {
-            Groups.AddToGroupAsync(Context.ConnectionId, Context.User.Identity.Name);
+            HttpContext httpContext = Context.GetHttpContext();
+
+            string receiver = httpContext.Request.Query["userid"];
+            string sender = Context.User.Claims.FirstOrDefault().Value;
+
+            Groups.AddToGroupAsync(Context.ConnectionId, sender);
+            if (!string.IsNullOrEmpty(receiver))
+            {
+                Groups.AddToGroupAsync(Context.ConnectionId, receiver);
+            }
+
             return base.OnConnectedAsync();
         }
 
-        public async Task NewMessage(string username, string message)
+        public Task SendMessageToGroup(ChatMessageVM chatMessageVM)
         {
-            await Clients.All.SendAsync("messageReceived", username, message);
-
-            // Save the message to MongoDB
-            var chatMessage = new ChatMessage
+            var ChatMessage = new ChatMessage
             {
-                UserName = username,
-                Message = message
+                Id = chatMessageVM.Id,
+                CommunicationId = chatMessageVM.CommunicationId,
+                Message= chatMessageVM.Message,
+                Receiver= chatMessageVM.Receiver,
+                Sender= chatMessageVM.Sender,
+                UserName= chatMessageVM.UserName,
+                Timestamp= chatMessageVM.Timestamp,
             };
-            await _chatMessages.InsertOneAsync(chatMessage);
-        }
+            _chatMessages.InsertOne(ChatMessage);
 
-        public Task SendMessageToGroup(string sender, string receiver, string message)
-        {
-            return Clients.Group(receiver).SendAsync("ReceiveMessage", sender, message);
+            return Clients.Group(chatMessageVM.Receiver).SendAsync("ReceiveMessage", chatMessageVM.Sender, chatMessageVM.Message);
         }
     }
 }
