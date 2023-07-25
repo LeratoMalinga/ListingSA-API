@@ -98,7 +98,7 @@ builder.Services.AddSignalR();
 
 builder.Services.AddCors(p => p.AddPolicy("corspolicy", build =>
 {
-    build.WithOrigins("http://localhost:5173", "http://localhost:5174").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+    build.WithOrigins("http://localhost:5173", "http://localhost:5174").AllowAnyMethod().AllowAnyHeader().AllowCredentials().SetIsOriginAllowed((host) => true);
 }));
 
 var app = builder.Build();

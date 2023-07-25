@@ -22,15 +22,14 @@ namespace DemoSvelte.Controllers
 
         [Route("send")]
         [HttpPost]
-        public IActionResult SendRequest([FromBody] ChatMessageVM msg)
+        public async Task<IActionResult> SendRequest([FromBody] ChatMessageVM msg)
         {
-
             // Send the message to the group using the ChatHub
-            _hubContext.Clients.Group(msg.Receiver).SendAsync("ReceiveMessage", msg.Sender, msg.Message);
-
+            await _hubContext.Clients.Group(msg.Receiver).SendAsync("ReceiveMessage", msg.Sender, msg.Message);
 
             return Ok();
         }
+
 
         [HttpPost("Message")]
         public async Task<ActionResult> Message(MessageDTO dto)
