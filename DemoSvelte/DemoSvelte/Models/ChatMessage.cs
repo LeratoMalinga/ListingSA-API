@@ -9,6 +9,7 @@ namespace DemoSvelte.Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { set; get; } = String.Empty;
+     
         [BsonElement("UserName")]
         public string? UserName { get; set; }
         [BsonElement("Sender")]

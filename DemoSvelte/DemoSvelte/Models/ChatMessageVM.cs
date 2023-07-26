@@ -5,7 +5,8 @@ namespace DemoSvelte.Models
 {
     public class ChatMessageVM
     {
-        public string Id { set; get; } 
+        public string Id { set; get; }
+        public Guid User { get; set; }
         public string? UserName { get; set; }
         public string? Sender { get; set; }
         public string? Receiver { get; set; }
