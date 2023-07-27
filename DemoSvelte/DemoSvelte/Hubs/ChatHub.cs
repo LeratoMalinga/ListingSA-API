@@ -14,7 +14,7 @@ namespace DemoSvelte.Hubs
         public ChatHub(IPropertyListDatabaseSettings settings, IMongoClient mongoClient, UserManager<AppUser> userManager)
         {
             var database = mongoClient.GetDatabase(settings.DatabaseName);
-            _chatMessages= database.GetCollection<ChatMessage>(settings.NewsletterSubcriber);
+            _chatMessages= database.GetCollection<ChatMessage>(settings.ChatMessage);
             _userManager = userManager;
         }
 
@@ -29,30 +29,27 @@ namespace DemoSvelte.Hubs
         static IList<UserConnection> Users = new List<UserConnection>();
         public async Task SendMessageToUser(ChatMessageVM messagemodel)
         {
-            var receiverGroup = messagemodel.Receiver; // Assuming the group name is the UserId of the receiver
-            var user = _userManager.Users.FirstOrDefault(x => x.Id == messagemodel.User);
+            var receiverGroup = messagemodel.Receiver; 
+            var userid = Guid.Parse(messagemodel.User);
+
+            var user = _userManager.Users.FirstOrDefault(x => x.Id == userid);
 
             ChatMessage message = new ChatMessage
             {
                 Sender = messagemodel.Sender,
                 Receiver = messagemodel.Receiver,
-                Timestamp = messagemodel.Timestamp,
-                Id = messagemodel.Id,
+                UserName = messagemodel.UserName,
+                Message = messagemodel.Message,
+                Timestamp = DateTime.UtcNow,
                 User = user,
-                CommunicationId = messagemodel.CommunicationId,
+                CommunicationId = this.Context.ConnectionId,
             };
 
             _chatMessages.InsertOne(message);
 
-            await Clients.Group(receiverGroup).SendAsync("ReceiveDM", message);
+            await Clients.Group(receiverGroup).SendAsync("ReceiveDM", message); 
         }
-
-        public object GetConnectionId()
-        {
-            return Context.ConnectionId;
-        }
-
-       
+   
         public async Task PublishUserOnConnect(string id, string fullname, string username)
         {
             
@@ -69,11 +66,10 @@ namespace DemoSvelte.Hubs
             if (existingUser == null)
             {
                 Users.Add(user);
-                await Groups.AddToGroupAsync(cnID, id); // Add the user to a SignalR group with their UserId as the group name
+                await Groups.AddToGroupAsync(cnID, id);
             }
             else
             {
-                // If the user already exists, update the connectionId
                 existingUser.ConnectionId = cnID;
             }
 
@@ -87,7 +83,7 @@ namespace DemoSvelte.Hubs
             if (user != null)
             {
                 Users.Remove(user);
-                await Groups.RemoveFromGroupAsync(connectionId, user.UserId); // Remove the user from their SignalR group
+                await Groups.RemoveFromGroupAsync(connectionId, user.UserId); 
                 await Clients.All.SendAsync("BroadcastUserOnDisconnect", Users);
             }
 

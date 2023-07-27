@@ -21,7 +21,7 @@ namespace DemoSvelte.Models
         [BsonElement("CreatedDate")]
         public DateTime Timestamp { get; set; }
         [BsonElement("CommunicationId")]
-        public int CommunicationId { get; set; }
+        public string CommunicationId { get; set; }
 
         [BsonElement("AppUser")]
         public virtual AppUser User { get; set; }
