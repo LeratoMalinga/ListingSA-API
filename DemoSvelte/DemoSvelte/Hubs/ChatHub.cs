@@ -27,29 +27,51 @@ namespace DemoSvelte.Hubs
         }
 
         static IList<UserConnection> Users = new List<UserConnection>();
-        public async Task SendMessageToUser(ChatMessageVM messagemodel)
+
+        public async Task SendPrivateMessage(ChatMessageVM messagemodel)
         {
-            var receiverGroup = messagemodel.Receiver; 
-            var userid = Guid.Parse(messagemodel.User);
+            var senderConnectionId = Context.ConnectionId;
+            var receiverUserId = Guid.Parse(messagemodel.Receiver);
 
-            var user = _userManager.Users.FirstOrDefault(x => x.Id == userid);
+            var sender = Users.FirstOrDefault(u => u.ConnectionId == senderConnectionId);
+            var receiver = Users.FirstOrDefault(u => u.UserId == messagemodel.Receiver);
 
-            ChatMessage message = new ChatMessage
+            if (receiver != null)
             {
-                Sender = messagemodel.Sender,
-                Receiver = messagemodel.Receiver,
-                UserName = messagemodel.UserName,
-                Message = messagemodel.Message,
-                Timestamp = DateTime.UtcNow,
-                User = user,
-                CommunicationId = this.Context.ConnectionId,
-            };
+                ChatMessage message = new ChatMessage
+                {
+                    Sender = messagemodel.Sender,
+                    Receiver = messagemodel.Receiver,
+                    UserName = messagemodel.UserName,
+                    Message = messagemodel.Message,
+                    Timestamp = DateTime.UtcNow,
+                    User = _userManager.Users.FirstOrDefault(x => x.Id == Guid.Parse(sender.UserId)),
+                    CommunicationId = senderConnectionId,
+                };
 
-            _chatMessages.InsertOne(message);
+                _chatMessages.InsertOne(message);
 
-            await Clients.Group(receiverGroup).SendAsync("ReceiveDM", message); 
+                await Clients.Client(receiver.ConnectionId).SendAsync("ReceiveDM", message);
+            }
+            else
+            {
+                // Receiver is not online or not found, store the message for later delivery
+                ChatMessage message = new ChatMessage
+                {
+                    Sender = messagemodel.Sender,
+                    Receiver = messagemodel.Receiver,
+                    UserName = messagemodel.UserName,
+                    Message = messagemodel.Message,
+                    Timestamp = DateTime.UtcNow,
+                    User = _userManager.Users.FirstOrDefault(x => x.Id == Guid.Parse(sender.UserId)),
+                    CommunicationId = senderConnectionId,
+                };
+
+                // Save the message to the database for offline delivery
+                _chatMessages.InsertOne(message);
+            }
         }
-   
+
         public async Task PublishUserOnConnect(string id, string fullname, string username)
         {
             
@@ -74,6 +96,7 @@ namespace DemoSvelte.Hubs
             }
 
             await Clients.All.SendAsync("BroadcastUserOnConnect", Users);
+
         }
 
         public override async Task OnDisconnectedAsync(Exception exception)

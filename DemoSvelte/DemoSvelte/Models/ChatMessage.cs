@@ -22,6 +22,8 @@ namespace DemoSvelte.Models
         public DateTime Timestamp { get; set; }
         [BsonElement("CommunicationId")]
         public string CommunicationId { get; set; }
+        [BsonElement("IsPrivateMessage")]
+        public Boolean IsPrivate { get; set; }
 
         [BsonElement("AppUser")]
         public virtual AppUser User { get; set; }

@@ -13,5 +13,6 @@ namespace DemoSvelte.Models
         public string? Message { get; set; }
         public DateTime Timestamp { get; set; }
         public string CommunicationId { get; set; }
+        public Boolean IsPrivate { get; set; }
     }
 }
