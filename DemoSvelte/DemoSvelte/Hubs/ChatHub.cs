@@ -36,6 +36,12 @@ namespace DemoSvelte.Hubs
             var sender = Users.FirstOrDefault(u => u.ConnectionId == senderConnectionId);
             var receiver = Users.FirstOrDefault(u => u.UserId == messagemodel.Receiver);
 
+            // Load the chat history from the database for the current sender and receiver
+            var chatHistory = _chatMessages
+                .Find(x => (x.Sender == messagemodel.Sender && x.Receiver == messagemodel.Receiver) ||
+                           (x.Sender == messagemodel.Receiver && x.Receiver == messagemodel.Sender))
+                .ToList();
+
             if (receiver != null)
             {
                 ChatMessage message = new ChatMessage
@@ -49,8 +55,10 @@ namespace DemoSvelte.Hubs
                     CommunicationId = senderConnectionId,
                 };
 
+                // Save the message to the database for chat history
                 _chatMessages.InsertOne(message);
 
+                // Send the message to the receiver (if online) or save for later delivery (if offline)
                 await Clients.Client(receiver.ConnectionId).SendAsync("ReceiveDM", message);
             }
             else
@@ -69,6 +77,26 @@ namespace DemoSvelte.Hubs
 
                 // Save the message to the database for offline delivery
                 _chatMessages.InsertOne(message);
+            }
+
+            // Send the chat history to the sender
+            await Clients.Client(senderConnectionId).SendAsync("ReceiveChatHistory", chatHistory);
+        }
+
+          public async Task SendChatHistory()
+        {
+            var connectionId = Context.ConnectionId;
+            var user = Users.FirstOrDefault(x => x.ConnectionId == connectionId);
+
+            if (user != null)
+            {
+                // Load the chat history from the database for the current user
+                var chatHistory = _chatMessages
+                    .Find(x => x.Sender == user.UserId || x.Receiver == user.UserId)
+                    .ToList();
+
+                // Send the chat history to the client
+                await Clients.Client(connectionId).SendAsync("ReceiveChatHistory", chatHistory);
             }
         }
 
