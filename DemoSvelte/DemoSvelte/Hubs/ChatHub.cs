@@ -51,7 +51,7 @@ namespace DemoSvelte.Hubs
                     UserName = messagemodel.UserName,
                     Message = messagemodel.Message,
                     Timestamp = DateTime.UtcNow,
-                    User = _userManager.Users.FirstOrDefault(x => x.Id == Guid.Parse(sender.UserId)),
+                    User = _userManager.Users.FirstOrDefault(x => x.Id == Guid.Parse(messagemodel.Receiver)),
                     CommunicationId = senderConnectionId,
                 };
 
@@ -71,7 +71,7 @@ namespace DemoSvelte.Hubs
                     UserName = messagemodel.UserName,
                     Message = messagemodel.Message,
                     Timestamp = DateTime.UtcNow,
-                    User = _userManager.Users.FirstOrDefault(x => x.Id == Guid.Parse(sender.UserId)),
+                    User = _userManager.Users.FirstOrDefault(x => x.Id == Guid.Parse(messagemodel.Receiver)),
                     CommunicationId = senderConnectionId,
                 };
 
@@ -83,26 +83,28 @@ namespace DemoSvelte.Hubs
             await Clients.Client(senderConnectionId).SendAsync("ReceiveChatHistory", chatHistory);
         }
 
-          public async Task SendChatHistory()
+
+        public async Task RequestChatHistory(string userId)
         {
-            var connectionId = Context.ConnectionId;
-            var user = Users.FirstOrDefault(x => x.ConnectionId == connectionId);
-
-            if (user != null)
+            var user = Users.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
+            if (user == null)
             {
-                // Load the chat history from the database for the current user
-                var chatHistory = _chatMessages
-                    .Find(x => x.Sender == user.UserId || x.Receiver == user.UserId)
-                    .ToList();
-
-                // Send the chat history to the client
-                await Clients.Client(connectionId).SendAsync("ReceiveChatHistory", chatHistory);
+                // User not found, cannot retrieve chat history
+                return;
             }
+
+            // Load the chat history from the database for the current user and chat ID
+            var chatHistory = _chatMessages
+                .Find(x => (x.Sender == user.UserId))
+                .ToList();
+
+            // Send the chat history to the client
+            await Clients.Client(Context.ConnectionId).SendAsync("ReceiveChatHistory", chatHistory);
         }
+
 
         public async Task PublishUserOnConnect(string id, string fullname, string username)
         {
-            
             var existingUser = Users.FirstOrDefault(x => x.UserId == id);
             var cnID = Context.ConnectionId;
             UserConnection user = new UserConnection
@@ -123,9 +125,10 @@ namespace DemoSvelte.Hubs
                 existingUser.ConnectionId = cnID;
             }
 
+            // Send the updated list of connected users to all clients
             await Clients.All.SendAsync("BroadcastUserOnConnect", Users);
-
         }
+
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {

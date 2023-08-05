@@ -1,6 +1,7 @@
 ﻿using DemoSvelte.Dtos;
 using DemoSvelte.Hubs;
 using DemoSvelte.Models;
+using DemoSvelte.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -14,45 +15,20 @@ namespace DemoSvelte.Controllers
     public class ChatController : ControllerBase
     {
         private readonly IHubContext<ChatHub> _hubContext;
-        public ChatController(IHubContext<ChatHub>  hubContext)
+        private readonly IChatMessageService _chatMessageService;
+        public ChatController(IHubContext<ChatHub>  hubContext,IChatMessageService chatMessageService)
         {
             _hubContext = hubContext;
+            _chatMessageService = chatMessageService;
         }
 
-
-        [Route("send")]
-        [HttpPost]
-        public async Task<IActionResult> SendRequest([FromBody] ChatMessageVM msg)
+        [HttpGet("{userId}")]
+        public ActionResult<ChatMessage> GetUserChatHistory(string userId)
         {
-            // Send the message to the group using the ChatHub
-            await _hubContext.Clients.Group(msg.Receiver).SendAsync("ReceiveMessage", msg.Sender, msg.Message);
-
-            return Ok();
-        }
-
-
-        [HttpPost("Message")]
-        public async Task<ActionResult> Message(MessageDTO dto)
-        {
-            var options = new PusherOptions
-            {
-                Cluster = "ap2",
-                Encrypted = true
-            };
-
-            var pusher = new Pusher(
-              "1565284",
-              "d4640bf31ce86bdd4b12",
-              "59545c2d1d94cea97460",
-              options);
-
-            await pusher.TriggerAsync(
-             "chat",
-             "message",
-             new { message = dto.Message, username = dto.Username });
-
-            return Ok(new string[] { });
+           var chatMessages = _chatMessageService.RequestChatHistory(userId);
+           return Ok(chatMessages);
 
         }
+
     }
 }

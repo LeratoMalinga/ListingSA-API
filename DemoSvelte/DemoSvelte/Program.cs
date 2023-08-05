@@ -34,6 +34,7 @@ builder.Services.AddScoped<IPropertyService, PropertyService>();
 builder.Services.AddScoped<IAppUserService, AppUserService>();
 builder.Services.AddScoped<INewsletterService, NewsletterService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IChatMessageService, ChatMessageService>();
 
 
 var mongoDBIdentityConfigaration = new MongoDbIdentityConfiguration
