@@ -17,11 +17,10 @@ public class ChatMessageService: IChatMessageService
 
     public async Task<List<ChatMessage>> RequestChatHistory(string userId)
     {
-       
-        // Load the chat history from the database for the current user and chat ID
+
         var chatHistory = _chatMessages
-            .Find(x => (x.Sender == userId))
-            .ToList();
+        .Find(x => x.Sender == userId || x.Receiver == userId)
+        .ToList();
 
         return chatHistory;
     }
