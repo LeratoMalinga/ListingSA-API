@@ -10,6 +10,8 @@ namespace DemoSvelte.Hubs
     {
         private readonly IMongoCollection<ChatMessage> _chatMessages;
         private readonly UserManager<AppUser> _userManager;
+        private static Dictionary<string, string> _userConnectionIds = new Dictionary<string, string>();
+
 
         public ChatHub(IPropertyListDatabaseSettings settings, IMongoClient mongoClient, UserManager<AppUser> userManager)
         {
@@ -30,7 +32,7 @@ namespace DemoSvelte.Hubs
 
         public async Task SendPrivateMessage(ChatMessageVM messagemodel)
         {
-            var senderConnectionId = Context.ConnectionId;
+            var senderConnectionId = _userConnectionIds[messagemodel.Sender]; // Get the sender's connection ID from the dictionary
             var receiverUserId = Guid.Parse(messagemodel.Receiver);
 
             var sender = Users.FirstOrDefault(u => u.ConnectionId == senderConnectionId);
@@ -51,15 +53,14 @@ namespace DemoSvelte.Hubs
                     UserName = messagemodel.UserName,
                     Message = messagemodel.Message,
                     Timestamp = DateTime.UtcNow,
-                    User = _userManager.Users.FirstOrDefault(x => x.Id == Guid.Parse(messagemodel.Receiver)),
+                    User = _userManager.Users.FirstOrDefault(x => x.Id == Guid.Parse(messagemodel.Sender)),
                     CommunicationId = senderConnectionId,
                 };
 
-                // Save the message to the database for chat history
+                // Save the message to the database for offline delivery
                 _chatMessages.InsertOne(message);
-
                 // Send the message to the receiver (if online) or save for later delivery (if offline)
-                await Clients.Client(receiver.ConnectionId).SendAsync("ReceiveDM", message);
+                await Clients.Client(receiver.ConnectionId).SendAsync("ReceiveDM", messagemodel);
             }
             else
             {
@@ -71,7 +72,7 @@ namespace DemoSvelte.Hubs
                     UserName = messagemodel.UserName,
                     Message = messagemodel.Message,
                     Timestamp = DateTime.UtcNow,
-                    User = _userManager.Users.FirstOrDefault(x => x.Id == Guid.Parse(messagemodel.Receiver)),
+                    User = _userManager.Users.FirstOrDefault(x => x.Id == Guid.Parse(messagemodel.Sender)),
                     CommunicationId = senderConnectionId,
                 };
 
@@ -82,26 +83,6 @@ namespace DemoSvelte.Hubs
             // Send the chat history to the sender
             await Clients.Client(senderConnectionId).SendAsync("ReceiveChatHistory", chatHistory);
         }
-
-
-        public async Task RequestChatHistory(string userId)
-        {
-            var user = Users.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
-            if (user == null)
-            {
-                // User not found, cannot retrieve chat history
-                return;
-            }
-
-            // Load the chat history from the database for the current user and chat ID
-            var chatHistory = _chatMessages
-                .Find(x => (x.Sender == user.UserId))
-                .ToList();
-
-            // Send the chat history to the client
-            await Clients.Client(Context.ConnectionId).SendAsync("ReceiveChatHistory", chatHistory);
-        }
-
 
         public async Task PublishUserOnConnect(string id, string fullname, string username)
         {
@@ -118,11 +99,13 @@ namespace DemoSvelte.Hubs
             if (existingUser == null)
             {
                 Users.Add(user);
+                _userConnectionIds[id] = cnID; // Add or update the connection ID in the dictionary
                 await Groups.AddToGroupAsync(cnID, id);
             }
             else
             {
                 existingUser.ConnectionId = cnID;
+                _userConnectionIds[id] = cnID; // Add or update the connection ID in the dictionary
             }
 
             // Send the updated list of connected users to all clients

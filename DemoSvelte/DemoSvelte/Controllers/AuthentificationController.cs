@@ -19,12 +19,15 @@ namespace DemoSvelte.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IAppUserService _appUserService;
 
-        public AuthentificationController(UserManager<AppUser> userManager,RoleManager<AppRole> roleManager,SignInManager<AppUser> signInManager)
+        public AuthentificationController(UserManager<AppUser> userManager,
+            RoleManager<AppRole> roleManager,SignInManager<AppUser> signInManager,IAppUserService appUserService)
         {
             _userManager= userManager;
             _roleManager= roleManager;
             _signInManager = signInManager;
+            _appUserService= appUserService;
              
         }
 
@@ -98,8 +101,7 @@ namespace DemoSvelte.Controllers
                     Name = registerAppUserVM.Name,
                     Email = registerAppUserVM.Email,
                     ConcurrencyStamp = Guid.NewGuid().ToString(),
-                    UserName = registerAppUserVM.Email,
-                    
+                    UserName = registerAppUserVM.Email,  
                 };
 
                 var createUserResult = await _userManager.CreateAsync(userExists, registerAppUserVM.Password);
@@ -122,6 +124,24 @@ namespace DemoSvelte.Controllers
                 return BadRequest(e);
             }
         }
+
+        [HttpGet("GetAppUsersByIds")]
+        public async Task<ActionResult<IEnumerable<AppUser>>> GetAppUsersByIds([FromQuery] string[] ids)
+        {
+            var appUsers = new List<AppUser>();
+
+            foreach (var id in ids)
+            {
+                var appUser = await _userManager.FindByIdAsync(id);
+                if (appUser != null)
+                {
+                    appUsers.Add(appUser);
+                }
+            }
+
+            return appUsers;
+        }
+
 
         [HttpPost]
         [Route("CreateUserRole")]
