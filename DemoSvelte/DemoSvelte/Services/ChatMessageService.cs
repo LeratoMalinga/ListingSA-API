@@ -15,12 +15,21 @@ public class ChatMessageService: IChatMessageService
         _chatMessages = database.GetCollection<ChatMessage>(settings.ChatMessage);
     }
 
-    public async Task<List<ChatMessage>> RequestChatHistory(string userId)
+    public async Task<List<ChatMessage>> RequestOpenChats(string userId)
     {
 
         var chatHistory = _chatMessages
         .Find(x => x.Sender == userId || x.Receiver == userId)
         .ToList();
+
+        return chatHistory;
+    }
+
+    public async Task<List<ChatMessage>> RequestChatHistoryBetweenUsers(string userId, string otherUserId)
+    {
+        var chatHistory = _chatMessages
+            .Find(x => (x.Sender == userId && x.Receiver == otherUserId) || (x.Sender == otherUserId && x.Receiver == userId))
+            .ToList();
 
         return chatHistory;
     }

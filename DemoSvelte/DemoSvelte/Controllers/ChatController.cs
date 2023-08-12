@@ -25,9 +25,16 @@ namespace DemoSvelte.Controllers
         [HttpGet("{userId}")]
         public ActionResult<ChatMessage> GetUserChatHistory(string userId)
         {
-           var chatMessages = _chatMessageService.RequestChatHistory(userId);
+           var chatMessages = _chatMessageService.RequestOpenChats(userId);
            return Ok(chatMessages);
 
+        }
+
+        [HttpGet("between-users")]
+        public async Task<ActionResult<List<ChatMessage>>> GetChatHistoryBetweenUsers([FromQuery]string userId, string otherUserId)
+        {
+            var chatHistory = await _chatMessageService.RequestChatHistoryBetweenUsers(userId, otherUserId);
+            return Ok(chatHistory);
         }
 
     }
