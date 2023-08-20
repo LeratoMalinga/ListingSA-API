@@ -62,7 +62,7 @@ namespace DemoSvelte.Controllers
                 using (var client = new MailKit.Net.Smtp.SmtpClient())
                 {
                     client.Connect("smtp.gmail.com", 465, true);
-                    client.Authenticate("lmalinga05@gmail.com", "udaqgdqoqbqkajld");
+                    client.Authenticate("lmalinga05@gmail.com", "nrchqztnxijnsuwl");
                     await client.SendAsync(message);
                     client.Disconnect(true);
                 }
